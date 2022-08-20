@@ -5,6 +5,7 @@ services:
     container_name: slim_php
     build:
       context: .
+    image: nicholastanui/sme-kinyozi-engine
     ports:
       - '9000:9000'
     volumes:
@@ -12,7 +13,7 @@ services:
 
   nginx:
     container_name: slim_nginx
-    image: nginx:stable-alpine
+    image: nicholastanui/sme-kinyozi-nginx
     ports:
       - '8080:80'
     volumes:
