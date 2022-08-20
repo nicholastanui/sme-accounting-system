@@ -40,7 +40,7 @@ jobs:
 
       - name: Docker Push Frontend
         run: |
-          docker tag nginx:stable-alpine ${{ secrets.DOCKER_USERNAME }}/sme-kinyozi-engine:stable-alpine |
+          docker tag nginx:stable-alpine ${{ secrets.DOCKER_USERNAME }}/nginx:stable-alpine |
           docker push ${{ secrets.DOCKER_USERNAME }}/nginx:stable-alpine
 
 #      - name: Build & push Docker image
