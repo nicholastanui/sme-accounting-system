@@ -15,15 +15,14 @@ jobs:
       - name: Check Out Code
         uses: actions/checkout@v2
 
-      - name: Build Docker Images
-        run: docker-compose create
+#      - name: Build Docker Images
+#        run: docker-compose create
+#
+#      - name: Show Created Images
+#        run: docker compose images
 
-      - name: Show Created Images
-        run: docker compose images
-
-      - name: Docker Login
-        run: | # log into docker hub account
-          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+      - name: Docker Hub Login
+        run: echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
 
 #      - name: Get Current Date # get the date of the build
 #        id: date
@@ -34,11 +33,11 @@ jobs:
 
 #      - name: Docker Push
 #        run: docker push $DOCKER_USER/$REPO_NAME:${{ steps.date.outputs.date }}
-      - name: Docker Push Frontend
-        run: docker push ${{ secrets.DOCKER_USERNAME }}/nginx:stable-alpine
-
-      - name: Docker Push Backend
-        run: docker push ${{ secrets.DOCKER_USERNAME }}/sme-kinyozi-engine:latest
+#      - name: Docker Push Frontend
+#        run: docker push ${{ secrets.DOCKER_USERNAME }}/nginx:stable-alpine
+#
+#      - name: Docker Push Backend
+#        run: docker push ${{ secrets.DOCKER_USERNAME }}/sme-kinyozi-engine:latest
 
 #      - name: Build & push Docker image
 #        uses: mr-smithers-excellent/docker-build-push@v5
