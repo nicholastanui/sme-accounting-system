@@ -12,25 +12,30 @@ jobs:
   build_and_push:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out code
+      - name: Check Out Code
         uses: actions/checkout@v2
 
-      - name: Build & push Docker image
-        uses: mr-smithers-excellent/docker-build-push@v5
-        with:
-          image: nicholastanui/sme-kinyozi
-          tags: latest
-          registry: docker.io
-          dockerfile: Dockerfile
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Build Docker Images
+        run: docker-compose build
 
-      - name: testing kinyozi server ssh connection
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.KINYOZI_HOST }}
-          username: ${{ secrets.KINYOZI_USERNAME }}
-          key: ${{ secrets.KINYOZI_SECRET}}
-          port: ${{ secrets.KINYOZI_PORT }}
-          script: |
-            echo pwd
+      - name: Check Docker Image
+        run: docker ps
+
+#      - name: Build & push Docker image
+#        uses: mr-smithers-excellent/docker-build-push@v5
+#        with:
+#          image: nicholastanui/sme-kinyozi
+#          tags: latest
+#          registry: docker.io
+#          dockerfile: Dockerfile
+#          username: ${{ secrets.DOCKER_USERNAME }}
+#          password: ${{ secrets.DOCKER_PASSWORD }}
+
+#      - name: testing kinyozi server ssh connection
+#        uses: appleboy/ssh-action@master
+#        with:
+#          host: ${{ secrets.KINYOZI_HOST }}
+#          username: ${{ secrets.KINYOZI_USERNAME }}
+#          key: ${{ secrets.KINYOZI_SECRET}}
+#          port: ${{ secrets.KINYOZI_PORT }}
+#          script: |
