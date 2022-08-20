@@ -1,4 +1,4 @@
-version: "3.3"
+version: "2"
 
 #services:
 #  php:
@@ -26,7 +26,6 @@ services:
   web-frontend:
     build:
       context: .
-    image: nicholastanui/sme-kinyozi-nginx
       dockerfile: ./docker/web/frontend/Dockerfile
     ports:
       - '8080:80'
@@ -37,7 +36,6 @@ services:
   web-backend:
     build:
       context: .
-    image: nicholastanui/sme-kinyozi-engine
       dockerfile: ./docker/web/backend/Dockerfile
     ports:
     - '9000:9000'
