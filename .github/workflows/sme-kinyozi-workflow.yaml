@@ -1,0 +1,19 @@
+name: Deployment Workflow
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  jobe_one:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: testing kinyozi server ssh connection
+        uses: appleboy/ssh-action@master
+        with:
+          host: 104.248.59.79
+          username: tanui
+          key: ${{ secrets.KINYOZI_SECRET}}
+          port: 22
+          script: |
+            docker ps
