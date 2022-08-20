@@ -34,10 +34,14 @@ jobs:
 #      - name: Docker Push
 #        run: docker push $DOCKER_USER/$REPO_NAME:${{ steps.date.outputs.date }}
       - name: Docker Push Backend
-        run: docker push ${{ secrets.DOCKER_USERNAME }}/sme-kinyozi-engine:latest
+        run: |
+          docker tag sme-kinyozi-engine:latest ${{ secrets.DOCKER_USERNAME }}/sme-kinyozi-engine:latest |
+          docker push ${{ secrets.DOCKER_USERNAME }}/sme-kinyozi-engine:latest
 
       - name: Docker Push Frontend
-        run: docker push ${{ secrets.DOCKER_USERNAME }}/nginx:stable-alpine
+        run: |
+          docker tag nginx:stable-alpine ${{ secrets.DOCKER_USERNAME }}/sme-kinyozi-engine:stable-alpine |
+          docker push ${{ secrets.DOCKER_USERNAME }}/nginx:stable-alpine
 
 #      - name: Build & push Docker image
 #        uses: mr-smithers-excellent/docker-build-push@v5
