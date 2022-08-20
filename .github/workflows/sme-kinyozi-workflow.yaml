@@ -53,11 +53,12 @@ jobs:
 #          username: ${{ secrets.DOCKER_USERNAME }}
 #          password: ${{ secrets.DOCKER_PASSWORD }}
 
-#      - name: testing kinyozi server ssh connection
-#        uses: appleboy/ssh-action@master
-#        with:
-#          host: ${{ secrets.KINYOZI_HOST }}
-#          username: ${{ secrets.KINYOZI_USERNAME }}
-#          key: ${{ secrets.KINYOZI_SECRET}}
-#          port: ${{ secrets.KINYOZI_PORT }}
-#          script: |
+      - name: Build On Remote Host
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.KINYOZI_HOST }}
+          username: ${{ secrets.KINYOZI_USERNAME }}
+          key: ${{ secrets.KINYOZI_SECRET}}
+          port: ${{ secrets.KINYOZI_PORT }}
+          script: |
+            docker ps
