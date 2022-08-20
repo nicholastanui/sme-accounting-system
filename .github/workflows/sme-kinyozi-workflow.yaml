@@ -16,10 +16,13 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Build Docker Images
-        run: docker-compose build
+        run: docker-compose create
 
       - name: Check Docker Image
         run: docker images -a
+
+      - name: Check Docker Image2
+        run: docker compose ps
 
 #      - name: Build & push Docker image
 #        uses: mr-smithers-excellent/docker-build-push@v5
