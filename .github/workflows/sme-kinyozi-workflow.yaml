@@ -61,4 +61,4 @@ jobs:
           key: ${{ secrets.KINYOZI_SECRET}}
           port: ${{ secrets.KINYOZI_PORT }}
           script: |
-            docker ps
+            sudo docker ps
