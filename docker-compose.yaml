@@ -5,7 +5,7 @@ services:
     container_name: slim_php
     build:
       context: .
-    image: nicholastanui/sme-kinyozi-engine
+    image: sme-kinyozi-engine
     ports:
       - '9000:9000'
     volumes:
