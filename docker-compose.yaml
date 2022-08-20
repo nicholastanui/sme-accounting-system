@@ -14,7 +14,7 @@ services:
   nginx:
     container_name: slim_nginx
     build:
-      dockerfile: ./docker/web/frontend/Dockerfile
+      context: ./docker/web/frontend/
     image: sme-kinyozi-nginx
     ports:
       - '8080:80'
