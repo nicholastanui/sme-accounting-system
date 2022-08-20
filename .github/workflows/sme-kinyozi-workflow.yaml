@@ -24,8 +24,8 @@ jobs:
       - name: Check Docker Image2
         run: docker compose ps
 
-      - name: Check Docker Image2
-        run: docker compose ps
+      - name: Check Docker Image3
+        run: docker compose images
 
 #      - name: Build & push Docker image
 #        uses: mr-smithers-excellent/docker-build-push@v5
