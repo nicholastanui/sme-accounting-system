@@ -13,7 +13,7 @@ services:
 
   nginx:
     container_name: slim_nginx
-    image: nicholastanui/sme-kinyozi-nginx
+    image: nginx:stable-alpine
     ports:
       - '8080:80'
     volumes:
