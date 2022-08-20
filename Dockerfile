@@ -1,5 +1,5 @@
+# STAGE 1
 FROM php:8.1-fpm
-
 RUN apt update \
     && apt install -y zlib1g-dev g++ git libicu-dev zip libzip-dev zip libpq-dev \
     && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
@@ -10,12 +10,13 @@ RUN apt update \
     && docker-php-ext-install zip \
     && docker-php-ext-install mysqli \
     && docker-php-ext-install pdo_mysql
-
 WORKDIR /var/www/slim_app
-
+EXPOSE: 9000
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-#FROM php:7.2-apache
-#COPY ../.. /var/www/html/uat-incentive-bundle
-#EXPOSE 80
-##sed -i -e 's/Listen 80/Listen 80\nServerName localhost/' /etc/apache2/ports.conf
-#CMD ["/usr/sbin/apache2ctl", "-D", "FOREGROUND"]
+#
+## STAGE 2
+#FROM nginx:stable-alpine
+#RUN rm -rf /etc/nginx/conf.d/*
+#COPY nginx/default.conf /etc/nginx/conf.d/
+#COPY --from=build /var/www/slim_app /var/www/slim_app
+#CMD ["nginx", "-g", "daemon off;"]

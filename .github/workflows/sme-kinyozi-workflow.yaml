@@ -2,18 +2,35 @@ name: Deployment Workflow
 on:
   push:
     branches: [ master ]
+  pull_request:
+    branches: [ master ]
+    paths:
+      - Dockerfile
+      - docker-compose.yaml
 
 jobs:
-  jobe_one:
-    name: Deploy
+  build_and_push:
     runs-on: ubuntu-latest
     steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Build & push Docker image
+        uses: mr-smithers-excellent/docker-build-push@v5
+        with:
+          image: nicholastanui/sme-kinyozi
+          tags: latest
+          registry: docker.io
+          dockerfile: Dockerfile
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
       - name: testing kinyozi server ssh connection
         uses: appleboy/ssh-action@master
         with:
-          host: 104.248.59.79
-          username: tanui
+          host: ${{ secrets.KINYOZI_HOST }}
+          username: ${{ secrets.KINYOZI_USERNAME }}
           key: ${{ secrets.KINYOZI_SECRET}}
-          port: 22
+          port: ${{ secrets.KINYOZI_PORT }}
           script: |
-            pwd
+            echo pwd
