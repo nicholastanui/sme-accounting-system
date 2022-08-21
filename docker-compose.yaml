@@ -13,9 +13,7 @@ services:
 
   nginx:
     container_name: slim_nginx
-    build:
-      context: ./docker/web/frontend/
-    image: sme-kinyozi-nginx
+    image: nginx:stable-alpine
     ports:
       - '8080:80'
     volumes:
