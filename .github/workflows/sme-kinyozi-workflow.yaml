@@ -64,5 +64,5 @@ jobs:
             echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin |
             docker pull ${{ secrets.DOCKER_USERNAME }}/sme-kinyozi-engine:latest |
             docker pull ${{ secrets.DOCKER_USERNAME }}/nginx:stable-alpine |
-            docker run -d  --restart=always --name=sme-kinyozi-engine -p 9000:9000 -v .:/var/www/slim_app/:rw ${{ secrets.DOCKER_USERNAME }}/sme-kinyozi-engine:latest
-            docker run -d  --restart=always --name=sme-nginx -p 8080:80 -v .:/var/www/slim_app/:rw -v ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf ${{ secrets.DOCKER_USERNAME }}/nginx:stable-alpine
+            docker run -d  --restart=always --name=sme-kinyozi-engine -p 9000:9000 -v /var/www/slim_app/:/var/www/slim_app/:rw ${{ secrets.DOCKER_USERNAME }}/sme-kinyozi-engine:latest
+            docker run -d  --restart=always --name=sme-nginx -p 8080:80 -v /var/www/slim_app/:/var/www/slim_app/:rw -v ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf ${{ secrets.DOCKER_USERNAME }}/nginx:stable-alpine
