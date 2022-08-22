@@ -14,8 +14,9 @@ WORKDIR /var/www/slim_app
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 #
 ## STAGE 2
-#FROM nginx:stable-alpine
-#RUN rm -rf /etc/nginx/conf.d/*
-#COPY nginx/default.conf /etc/nginx/conf.d/
-#COPY --from=build /var/www/slim_app /var/www/slim_app
-#CMD ["nginx", "-g", "daemon off;"]
+FROM nginx:stable-alpine
+RUN rm -rf /etc/nginx/conf.d/*
+COPY nginx/default.conf /etc/nginx/conf.d/
+RUN rm -rf /usr/share/nginx/html/*
+COPY --from=build /var/www/slim_app /var/www/slim_app
+CMD ["nginx", "-g", "daemon off;"]

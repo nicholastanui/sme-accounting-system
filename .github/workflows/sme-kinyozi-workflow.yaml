@@ -15,43 +15,43 @@ jobs:
       - name: Check Out Code
         uses: actions/checkout@v2
 
-      - name: Build Docker Images
-        run: docker-compose create
+#      - name: Build Docker Images
+#        run: docker-compose create
+#
+#      - name: Show Created Images
+#        run: docker compose images
+#
+#      - name: Docker Hub Login
+#        run: echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
+#
+#      - name: Get Current Date # get the date of the build
+#        id: date
+#        run: echo "::set-output name=date::$(date +'%Y-%m-%d--%M-%S')"
+#
+##      - name: Build the Docker image # push The image to the docker hub
+##        run: docker build . --file Dockerfile --tag $DOCKER_USER/$REPO_NAME:${{ steps.date.outputs.date }}
+#
+##      - name: Docker Push
+##        run: docker push $DOCKER_USER/$REPO_NAME:${{ steps.date.outputs.date }}
+#      - name: Docker Push Backend
+#        run: |
+#          docker tag sme-kinyozi-engine:latest ${{ secrets.DOCKER_USERNAME }}/sme-kinyozi-engine:latest |
+#          docker push ${{ secrets.DOCKER_USERNAME }}/sme-kinyozi-engine:latest
+#
+#      - name: Docker Push Frontend
+#        run: |
+#          docker tag nginx:stable-alpine ${{ secrets.DOCKER_USERNAME }}/nginx:stable-alpine |
+#          docker push ${{ secrets.DOCKER_USERNAME }}/nginx:stable-alpine
 
-      - name: Show Created Images
-        run: docker compose images
-
-      - name: Docker Hub Login
-        run: echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
-
-      - name: Get Current Date # get the date of the build
-        id: date
-        run: echo "::set-output name=date::$(date +'%Y-%m-%d--%M-%S')"
-
-#      - name: Build the Docker image # push The image to the docker hub
-#        run: docker build . --file Dockerfile --tag $DOCKER_USER/$REPO_NAME:${{ steps.date.outputs.date }}
-
-#      - name: Docker Push
-#        run: docker push $DOCKER_USER/$REPO_NAME:${{ steps.date.outputs.date }}
-      - name: Docker Push Backend
-        run: |
-          docker tag sme-kinyozi-engine:latest ${{ secrets.DOCKER_USERNAME }}/sme-kinyozi-engine:latest |
-          docker push ${{ secrets.DOCKER_USERNAME }}/sme-kinyozi-engine:latest
-
-      - name: Docker Push Frontend
-        run: |
-          docker tag nginx:stable-alpine ${{ secrets.DOCKER_USERNAME }}/nginx:stable-alpine |
-          docker push ${{ secrets.DOCKER_USERNAME }}/nginx:stable-alpine
-
-#      - name: Build & push Docker image
-#        uses: mr-smithers-excellent/docker-build-push@v5
-#        with:
-#          image: nicholastanui/sme-kinyozi
-#          tags: latest
-#          registry: docker.io
-#          dockerfile: Dockerfile
-#          username: ${{ secrets.DOCKER_USERNAME }}
-#          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Build & push Docker image
+        uses: mr-smithers-excellent/docker-build-push@v5
+        with:
+          image: nicholastanui/sme-kinyozi
+          tags: latest
+          registry: docker.io
+          dockerfile: Dockerfile
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build On Remote Host
         uses: appleboy/ssh-action@master
@@ -61,13 +61,30 @@ jobs:
           key: ${{ secrets.KINYOZI_SECRET}}
           port: ${{ secrets.KINYOZI_PORT }}
           script: |
-            echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
-            docker stop sme-kinyozi-engine
-            docker rm sme-kinyozi-engine
-            docker stop sme-nginx
-            docker rm sme-nginx
-            docker system prune --all --force
-            docker pull ${{ secrets.DOCKER_USERNAME }}/sme-kinyozi-engine:latest
-            docker run -d  --restart=always --name=sme-kinyozi-engine -p 9000:9000 -v /var/www/slim_app:/var/www/slim_app ${{ secrets.DOCKER_USERNAME }}/sme-kinyozi-engine:latest
-            docker pull ${{ secrets.DOCKER_USERNAME }}/nginx:stable-alpine
-            docker run -d  --restart=always --name=sme-nginx -p 8080:80 -v /var/www/slim_app:/var/www/slim_app ${{ secrets.DOCKER_USERNAME }}/nginx:stable-alpine
+              echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
+              docker stop sme-kinyozi-engine
+              docker rm sme-kinyozi-engine
+              docker stop sme-nginx
+              docker rm sme-nginx
+              docker system prune --all --force
+              docker pull ${{ secrets.DOCKER_USERNAME }}/sme-kinyozi:latest
+              docker run -d  --restart=always --name=sme-kinyozi-engine -p 8080:80 ${{ secrets.DOCKER_USERNAME }}/sme-kinyozi:latest
+
+#      - name: Build On Remote Host
+#        uses: appleboy/ssh-action@master
+#        with:
+#          host: ${{ secrets.KINYOZI_HOST }}
+#          username: ${{ secrets.KINYOZI_USERNAME }}
+#          key: ${{ secrets.KINYOZI_SECRET}}
+#          port: ${{ secrets.KINYOZI_PORT }}
+#          script: |
+#            echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
+#            docker stop sme-kinyozi-engine
+#            docker rm sme-kinyozi-engine
+#            docker stop sme-nginx
+#            docker rm sme-nginx
+#            docker system prune --all --force
+#            docker pull ${{ secrets.DOCKER_USERNAME }}/sme-kinyozi-engine:latest
+#            docker run -d  --restart=always --name=sme-kinyozi-engine -p 9000:9000 -v /var/www/slim_app:/var/www/slim_app ${{ secrets.DOCKER_USERNAME }}/sme-kinyozi-engine:latest
+#            docker pull ${{ secrets.DOCKER_USERNAME }}/nginx:stable-alpine
+#            docker run -d  --restart=always --name=sme-nginx -p 8080:80 -v /var/www/slim_app:/var/www/slim_app ${{ secrets.DOCKER_USERNAME }}/nginx:stable-alpine
