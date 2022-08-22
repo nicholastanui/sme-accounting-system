@@ -64,10 +64,6 @@ jobs:
             echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin |
             docker pull ${{ secrets.DOCKER_USERNAME }}/sme-kinyozi-engine:latest |
             docker pull ${{ secrets.DOCKER_USERNAME }}/nginx:stable-alpine |
-#            docker stop sme-kinyozi-engine |
-#            docker rm sme-kinyozi-engine |
             docker run -d  --restart=always --name=sme-kinyozi-engine -p 9000:9000 ${{ secrets.DOCKER_USERNAME }}/sme-kinyozi-engine:latest |
-#            docker stop sme-nginx |
-#            docker rm sme-nginx |
-            docker run -d  --restart=always --name=sme-nginx -p 8080:80 ${{ secrets.DOCKER_USERNAME }}/nginx:stable-alpine
+            docker run -d  --restart=always --name=sme-nginx -p 8080:80 ${{ secrets.DOCKER_USERNAME }}/nginx:stable-alpine |
             docker system prune --all --force
