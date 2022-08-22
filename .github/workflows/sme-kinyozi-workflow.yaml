@@ -68,6 +68,6 @@ jobs:
             docker rm sme-nginx
             docker system prune --all --force
             docker pull ${{ secrets.DOCKER_USERNAME }}/sme-kinyozi-engine:latest
-            docker run -d  --restart=always --name=sme-kinyozi-engine -p 9000:9000 ${{ secrets.DOCKER_USERNAME }}/sme-kinyozi-engine:latest
+            docker run -d  --restart=always --name=sme-kinyozi-engine -p 9000:9000 -v /var/www/slim_app:/var/www/slim_app ${{ secrets.DOCKER_USERNAME }}/sme-kinyozi-engine:latest
             docker pull ${{ secrets.DOCKER_USERNAME }}/nginx:stable-alpine
-            docker run -d  --restart=always --name=sme-nginx -p 8080:80 ${{ secrets.DOCKER_USERNAME }}/nginx:stable-alpine
+            docker run -d  --restart=always --name=sme-nginx -p 8080:80 -v /var/www/slim_app:/var/www/slim_app ${{ secrets.DOCKER_USERNAME }}/nginx:stable-alpine
