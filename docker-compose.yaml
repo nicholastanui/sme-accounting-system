@@ -2,7 +2,7 @@ version: "3.3"
 
 services:
   php:
-    container_name: slim_php
+    container_name: php_app
     build:
       context: ./docker/php
     ports:
@@ -11,7 +11,7 @@ services:
       - .:/var/www/slim_app
 
   nginx:
-    container_name: slim_nginx
+    container_name: nginx_webserver
     image: nginx:stable-alpine
     ports:
       - '8080:80'
