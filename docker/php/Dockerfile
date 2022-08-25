@@ -1,4 +1,3 @@
-# STAGE 1
 FROM php:8.1-fpm AS build
 RUN apt update \
     && apt install -y zlib1g-dev g++ git libicu-dev zip libzip-dev zip libpq-dev \
@@ -12,11 +11,3 @@ RUN apt update \
     && docker-php-ext-install pdo_mysql
 WORKDIR /var/www/slim_app
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-#
-## STAGE 2
-FROM nginx:stable-alpine
-RUN rm -rf /etc/nginx/conf.d/*
-COPY nginx/default.conf /etc/nginx/conf.d/
-RUN rm -rf /usr/share/nginx/html/*
-COPY --from=build /var/www/slim_app /var/www/slim_app
-CMD ["nginx", "-g", "daemon off;"]
