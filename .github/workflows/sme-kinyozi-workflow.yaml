@@ -80,7 +80,7 @@ jobs:
           script: |
             cd sme-accounting-system
             git checkout master
-            echo Clean Up Exercise...
+            echo Clean Up Exercises...
             git stash
             git stash drop
             git pull origin master
