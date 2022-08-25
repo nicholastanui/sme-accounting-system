@@ -85,6 +85,7 @@ jobs:
             git stash drop
             git pull origin master
             docker-compose up
+            exit
 #            echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
 #            docker stop sme-kinyozi-engine
 #            docker rm sme-kinyozi-engine
