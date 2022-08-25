@@ -1,11 +1,10 @@
-version: "3.3"
+version: "3.8"
 
 services:
   php:
     container_name: slim_php
     build:
-      context: .
-    image: sme-kinyozi-engine
+      context: ./docker/php
     ports:
       - '9000:9000'
     volumes:
@@ -13,9 +12,7 @@ services:
 
   nginx:
     container_name: slim_nginx
-    build:
-      context: docker/web/frontend
-    image: nginx
+    image: nginx:stable-alpine
     ports:
       - '8080:80'
     volumes:
