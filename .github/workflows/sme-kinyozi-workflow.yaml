@@ -78,10 +78,12 @@ jobs:
           key: ${{ secrets.KINYOZI_SECRET}}
           port: ${{ secrets.KINYOZI_PORT }}
           script: |
-            rm -rf sme-accounting-system
-            git clone git@github.com:nicholastanui/sme-accounting-system.git
             cd sme-accounting-system
             git checkout master
+            echo Clean Up Exercise...
+            git stash
+            git stash drop
+            git pull origin master
             docker-compose up --build
 #            echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
 #            docker stop sme-kinyozi-engine
